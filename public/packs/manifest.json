@@ -1,0 +1,84 @@
+{
+  "api_vue.js": "/packs/js/api_vue-6f9f5b6eeb757afddc52.js",
+  "api_vue.js.map": "/packs/js/api_vue-6f9f5b6eeb757afddc52.js.map",
+  "api_vue2.js": "/packs/js/api_vue2-b1e17aff2f1fee746dcf.js",
+  "api_vue2.js.map": "/packs/js/api_vue2-b1e17aff2f1fee746dcf.js.map",
+  "app.js": "/packs/js/app-13af9afe930bd424ad51.js",
+  "app.js.map": "/packs/js/app-13af9afe930bd424ad51.js.map",
+  "application.js": "/packs/js/application-e421b4aa3f716bebdab1.js",
+  "application.js.map": "/packs/js/application-e421b4aa3f716bebdab1.js.map",
+  "entrypoints": {
+    "api_vue": {
+      "js": [
+        "/packs/js/api_vue-6f9f5b6eeb757afddc52.js"
+      ],
+      "js.map": [
+        "/packs/js/api_vue-6f9f5b6eeb757afddc52.js.map"
+      ]
+    },
+    "api_vue2": {
+      "js": [
+        "/packs/js/api_vue2-b1e17aff2f1fee746dcf.js"
+      ],
+      "js.map": [
+        "/packs/js/api_vue2-b1e17aff2f1fee746dcf.js.map"
+      ]
+    },
+    "app": {
+      "js": [
+        "/packs/js/app-13af9afe930bd424ad51.js"
+      ],
+      "js.map": [
+        "/packs/js/app-13af9afe930bd424ad51.js.map"
+      ]
+    },
+    "application": {
+      "js": [
+        "/packs/js/application-e421b4aa3f716bebdab1.js"
+      ],
+      "js.map": [
+        "/packs/js/application-e421b4aa3f716bebdab1.js.map"
+      ]
+    },
+    "hello_vue": {
+      "js": [
+        "/packs/js/hello_vue-ccc857e7b1adb4fbd2fe.js"
+      ],
+      "js.map": [
+        "/packs/js/hello_vue-ccc857e7b1adb4fbd2fe.js.map"
+      ]
+    },
+    "hello": {
+      "js": [
+        "/packs/js/hello-8396d6cd0f39ef3b9036.js"
+      ],
+      "js.map": [
+        "/packs/js/hello-8396d6cd0f39ef3b9036.js.map"
+      ]
+    },
+    "news": {
+      "js": [
+        "/packs/js/news-77c3b409de4cd8d83e2c.js"
+      ],
+      "js.map": [
+        "/packs/js/news-77c3b409de4cd8d83e2c.js.map"
+      ]
+    },
+    "vue_news": {
+      "js": [
+        "/packs/js/vue_news-79aa2e1c5731697acd2e.js"
+      ],
+      "js.map": [
+        "/packs/js/vue_news-79aa2e1c5731697acd2e.js.map"
+      ]
+    }
+  },
+  "hello.js": "/packs/js/hello-8396d6cd0f39ef3b9036.js",
+  "hello.js.map": "/packs/js/hello-8396d6cd0f39ef3b9036.js.map",
+  "hello_vue.js": "/packs/js/hello_vue-ccc857e7b1adb4fbd2fe.js",
+  "hello_vue.js.map": "/packs/js/hello_vue-ccc857e7b1adb4fbd2fe.js.map",
+  "news.js": "/packs/js/news-77c3b409de4cd8d83e2c.js",
+  "news.js.map": "/packs/js/news-77c3b409de4cd8d83e2c.js.map",
+  "vue_news.js": "/packs/js/vue_news-79aa2e1c5731697acd2e.js",
+  "vue_news.js.map": "/packs/js/vue_news-79aa2e1c5731697acd2e.js.map"
+}
