@@ -47,12 +47,14 @@
             <div v-else>
 
             </div>
+            <!--<input type="text" @click="search" v-model="section" :value="section">-->
             <select @click="search" v-model="section">
                 <option v-for="section in sections" :value="section">{{ section }}</option>
             </select>
             <br>
 
             <button class="btn btn-primary" type="submit" @click="active">データを取得</button>
+            <button class="btn btn-primary" type="submit" @click="postDiary">Diaryを送信</button>
         </div>
 
     </div>

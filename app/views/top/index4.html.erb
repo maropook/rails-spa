@@ -1,2 +1,31 @@
-<%= javascript_pack_tag 'hello' %>
-<%= stylesheet_pack_tag 'hello' %>
+<%= javascript_pack_tag 'diary' %>
+<%= stylesheet_pack_tag 'diary' %>
+
+
+<head>
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<div class="diary">
+    <div class="my-container">
+        <div class="container" id="app">
+            <br>
+            <div class="content">
+                <div>タイトル:{{results}}</div>
+                <div class="for" v-for="result in results">
+
+                    <div>タイトル:{{result.body}}</div>
+                </div>
+                <div v-if="isActive"></div>
+                <div v-else>
+                </div>
+                <input type="text" @click="search" v-model="section">
+                <br>
+                <button class="btn btn-primary" type="submit" @click="active">データを取得</button>
+                <button class="btn btn-primary" type="submit" @click="postDiary">Diaryを送信</button>
+            </div>
+
+        </div>
+    </div>
+</div>

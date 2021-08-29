@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var btn = document.getElementById('btn');
+        var modal = document.getElementById('modal');
+
+
+        document.getElementById('btn').addEventListener('click', function () {
+            modal.style.display = 'block';
+        });
+
+        window.addEventListener('click', function (e) {
+            if (e.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+    }, false);
+</script>
+<style>
+    div {
+        background-color: aqua;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        width: 500px;
+        margin: 40% auto;
+    }
+</style>
+
+<body>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>hello</h1>
+
+            </div>
+        </div>
+    </div>
+    <input type="button" id="btn" value='click me'>
+</body>
+
+</html>

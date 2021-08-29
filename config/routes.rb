@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-
-get "", to: "top#show"
+get "", to: "top#article"
+get "show", to: "top#show"
 get "index", to: "top#index"
 get "index1", to: "top#index1"
 get "index2", to: "top#index2"
