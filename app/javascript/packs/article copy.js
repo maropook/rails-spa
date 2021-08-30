@@ -45,6 +45,7 @@ const vm =  new Vue({
               .get(`http://localhost:8000/api/article/${id}/`)
               .then(response => {
                   this.currentArticle = response.data;
+                  $("#editArticleModal").modal("show");
                   this.loading = false;
               })
               .catch(err => {
@@ -58,12 +59,7 @@ const vm =  new Vue({
               .post("http://localhost:8000/api/article/", this.newArticle)
               .then(response => {
                   this.loading = true;
-                  this.newArticle =
-                  {article_heading: null,
-                    article_body: null,};
                   this.getArticles();
-                  $("#addArticleModal").modal('toggle');
-
               })
               .catch(err => {
                   this.loading = true;
@@ -81,7 +77,6 @@ const vm =  new Vue({
                   this.loading = false;
                   this.currentArticle = response.data;
                   this.getArticles();
-                  $("#editArticleModal").modal('toggle');
               })
               .catch(err => {
                   this.loading = false;
