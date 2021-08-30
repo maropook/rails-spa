@@ -22,8 +22,6 @@
 
 <body>
     <div id="todo" class="container">
-
-
         <div class="jumbotron text-center">
             <h1>Todoリスト <span class="label label-info"> {{todos.length}} </span></h1>
         </div>
@@ -46,7 +44,7 @@
                         <input type="text" class="form-control input-lg text-center" placeholder="Todoを入力してください"
                             v-model="formData.text">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg" @click="createTodo()">追加</button>
+                    <button type="button" class="btn btn-primary btn-lg" @click="createTodo()">追加</button>
                 </form>
             </div>
         </div>

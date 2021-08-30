@@ -45,6 +45,9 @@ const vm =  new Vue({
           axios
               .post("http://localhost:8000/todo/todos/", this.formData)
               .then(response => {
+                this.formData= {
+                    text: null,
+                },
                   this.readTodos();
               })
               .catch(err => {
