@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css">
+<%= javascript_pack_tag 'page' %>
+<%= stylesheet_pack_tag 'page' %>
+
+<body>
+
+    <div id="app">
+        <ul>
+            <li v-for="item in getItems">{{item}}</li>
+        </ul>
+        <paginate :page-count="getPageCount" :page-range="3" :margin-pages="2" :click-handler="clickCallback"
+            :prev-text="'＜'" :next-text="'＞'" :container-class="'pagination'" :page-class="'page-item'">
+        </paginate>
+    </div>
+
+
+</body>
