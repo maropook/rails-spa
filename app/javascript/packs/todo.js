@@ -1,17 +1,29 @@
 
 import Vue from 'vue/dist/vue.esm'
 import axios from 'axios';
+
+
+
+import Paginate from 'vuejs-paginate'
+
+Vue.component('paginate', Paginate)
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
 const vm =  new Vue({
   el: "#todo",
+  data(){
 
-  data: {
+    const items = new Array(200).fill(null).map((e, i) => `Item ${i + 1}`);
+     return{
+       items,
+       parPage: 10,
+       currentPage: 1,
       todos: [],
       formData: {
           text: null,
-      },
-
-
+      },}
   },
   mounted: function () {
       this.readTodos();
@@ -28,19 +40,6 @@ const vm =  new Vue({
                   console.log(err);
               });
       },
-    //   getArticle: function (id) {
-    //       this.loading = true;
-    //       axios
-    //           .get(`http://localhost:8000/todo/todos/${id}/`)
-    //           .then(response => {
-    //               this.currentArticle = response.data;
-    //               this.loading = false;
-    //           })
-    //           .catch(err => {
-    //               this.loading = false;
-    //               console.log(err);
-    //           });
-    //   },
       createTodo: function () {
           axios
               .post("http://localhost:8000/todo/todos/", this.formData)
@@ -51,40 +50,33 @@ const vm =  new Vue({
                   this.readTodos();
               })
               .catch(err => {
-
                   console.log(err);
               });
       },
-    //   updateArticle: function () {
-    //       this.loading = true;
-    //       axios
-    //           .put(
-    //               `http://localhost:8000/todo/todos/${this.currentArticle.article_id}/`,
-    //               this.currentArticle
-    //           )
-    //           .then(response => {
-    //               this.loading = false;
-    //               this.currentArticle = response.data;
-    //               this.readTodos();
-    //           })
-    //           .catch(err => {
-    //               this.loading = false;
-    //               console.log(err);
-    //           });
-    //   },
       deleteTodo: function (id) {
-
           axios
               .delete(`http://localhost:8000/todo/todos/${id}/`)
               .then(response => {
-
                   this.readTodos();
               })
               .catch(err => {
-
                   console.log(err);
               });
-      }
-  }
+      },
+    clickCallback: function (pageNum) {
+       this.currentPage = Number(pageNum);
+    }
+   },
+   computed: {
+     getItems: function() {
+       let current = this.currentPage * this.parPage;
+       let start = current - this.parPage;
+       return this.todos.slice(start, current);
+     },
+     getPageCount: function() {
+       return Math.ceil(this.todos.length / this.parPage);
+     }
+   }
+
 });
 })
