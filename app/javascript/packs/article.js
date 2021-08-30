@@ -95,6 +95,7 @@ const vm =  new Vue({
               .then(response => {
                   this.loading = false;
                   this.getArticles();
+                  $("#deleteArticleModal").modal('toggle');
               })
               .catch(err => {
                   this.loading = false;

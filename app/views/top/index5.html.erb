@@ -187,7 +187,8 @@
                                         data-toggle="modal" data-target="#editArticleModal">
                                         編集
                                     </button>
-                                    <button class="btn btn-danger" v-on:click="deleteArticle(article.article_id)">
+                                    <button class="btn btn-danger" v-on:click="getArticle(article.article_id)"
+                                        data-toggle="modal" data-target="#deleteArticleModal">
                                         削除
                                     </button>
                                 </td>
@@ -278,6 +279,33 @@
                         <div class="loading" v-if="loading===true">Loading&#8230;</div>
                     </div>
                     <!-- End of edit article modal -->
+
+                    <div class="modal fade" id="deleteArticleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        本当に削除しますか？
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form v-on:submit.prevent=deleteArticle(currentArticle.article_id)>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">
+                                            閉じる
+                                        </button>
+                                        <button type="submit" class="btn btn-danger">
+                                            削除
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="loading" v-if="loading===true">Loading&#8230;</div>
+                    </div>
                 </div>
             </div>
             <div class="loading" v-if="loading===true">Loading&#8230;</div>
