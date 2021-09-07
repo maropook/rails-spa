@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <!-- boostrap css -->
+</head>
+
+<body>
+    <div class="article">
+        <div id="starting">
+            <div class="container">
+                <br>
+                <br>
+                <div class="row">
+                    <h2>
+                        ISBN結果
+
+                    </h2>
+                    &emsp;
+                    <div class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search"
+                            v-model="search_rakuten_books" aria-label=" Search" />
+                        <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getRakutenBooks()">
+                            IsbnSearch
+                        </button>
+                        <button class="btn btn-outline-primary my-2 my-sm-0" v-on:click.prevent="addArticleDirect()">
+                            確認せず追加
+                        </button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#addArticleModal">
+                            新規追加
+                        </button>
+
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <%# "9784098252022"%>
+                                <th scope="col">タイトル</th>
+                                <th scope="col">タイトルカナ</th>
+                                <th scope="col">著者名</th>
+                                <th scope="col">著者名カナ</th>
+                                <th scope="col">isbnコード</th>
+                                <th scope="col">発売日</th>
+                                <th scope="col">アクション</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th scope="row">{{rakuten_books.title}}</th>
+                            <th scope="row">{{rakuten_books.titleKana}}</th>
+                            <th scope="row">{{rakuten_books.author}}</th>
+                            <th scope="row">{{rakuten_books.authorKana}}</th>
+                            <th scope="row">{{rakuten_books.isbn}}</th>
+                            <th scope="row">{{rakuten_books.salesDate}}</th>
+
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <h2>
+                        投稿一覧
+
+
+                    </h2>
+                    &emsp;
+                    <div class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term"
+                            aria-label="Search" />
+                        <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getArticles()">
+                            Search
+                        </button>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <%# "9784098252022"%>
+                                <th scope="col">タイトル</th>
+                                <th scope="col">タイトルカナ</th>
+                                <th scope="col">著者名</th>
+                                <th scope="col">著者名カナ</th>
+                                <th scope="col">isbnコード</th>
+                                <th scope="col">発売日</th>
+                                <th scope="col">アクション</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tbody>
+                            <tr v-for="(article,index) in articles" :key="index">
+                                <th scope="row">{{article.title}}</th>
+                                <th scope="row">{{article.title_kana}}</th>
+
+                                <th scope="row">{{article.author}}</th>
+                                <th scope="row">{{article.author_kana}}</th>
+                                <th scope="row">{{article.isbn}}</th>
+                                <th scope="row">{{article.sales_date}}</th>
+
+                                <td>
+                                    <button class="btn btn-info" v-on:click="getArticle(article.book_id)"
+                                        data-toggle="modal" data-target="#editArticleModal">
+                                        編集
+                                    </button>
+                                    <button class="btn btn-danger" v-on:click="getArticle(article.book_id)"
+                                        data-toggle="modal" data-target="#deleteArticleModal">
+                                        削除
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Add Article Modal -->
+                    <div class="modal fade" id="addArticleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        新規追加 手で入力するか，Isbnコードを入力してください
+
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form v-on:submit.prevent="addArticle()">
+
+
+                                    <div class="modal-body">
+
+                                        <input class="form-control mr-sm-2" type="text" placeholder="Search"
+                                            v-model="search_rakuten_books" aria-label=" Search" />
+                                        <button class="btn btn-outline-success my-2 my-sm-0"
+                                            v-on:click.prevent="getRakutenBooks()">
+                                            Isbnコードで自動入力
+                                        </button>
+
+                                        <div class="form-group">
+                                            <label for="title">タイトル</label>
+                                            <input type="text" class="form-control" id="title"
+                                                placeholder="タイトルを入力してください" v-model="newArticle.title"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="title_kana">タイトルカナ</label>
+                                            <input type="text" class="form-control" id="title_kana"
+                                                placeholder="タイトルを入力してください" v-model="newArticle.title_kana"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="author">author</label>
+                                            <input type="text" class="form-control" id="author"
+                                                placeholder="タイトルを入力してください" v-model="newArticle.author"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="author_kana">author_kana</label>
+                                            <input type="text" class="form-control" id="author_kana"
+                                                placeholder="タイトルを入力してください" v-model="newArticle.author_kana"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="isbn">isbn</label>
+                                            <input type="text" class="form-control" id="isbn"
+                                                placeholder="タイトルを入力してください" v-model="newArticle.isbn"
+                                                required="required" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="sales_date">sales_date</label>
+                                            <input type="text" class="form-control" id="sales_date"
+                                                placeholder="タイトルを入力してください" v-model="newArticle.sales_date"
+                                                required="required" />
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">
+                                            閉じる
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            保存
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="loading" v-if="loading===true">Loading&#8230;</div>
+                    </div>
+                    <!-- End of add article modal -->
+                    <!-- Edit Article Modal -->
+                    <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        編集
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form v-on:submit.prevent="updateArticle()">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="title">タイトル</label>
+                                            <input type="text" class="form-control" id="title"
+                                                placeholder="タイトルを入力してください" v-model="currentArticle.title"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="title_kana">タイトルカナ</label>
+                                            <input type="text" class="form-control" id="title_kana"
+                                                placeholder="タイトルを入力してください" v-model="currentArticle.title_kana"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="author">author</label>
+                                            <input type="text" class="form-control" id="author"
+                                                placeholder="タイトルを入力してください" v-model="currentArticle.author"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="author_kana">author_kana</label>
+                                            <input type="text" class="form-control" id="author_kana"
+                                                placeholder="タイトルを入力してください" v-model="currentArticle.author_kana"
+                                                required="required" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="isbn">isbn</label>
+                                            <input type="text" class="form-control" id="isbn"
+                                                placeholder="タイトルを入力してください" v-model="currentArticle.isbn"
+                                                required="required" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="sales_date">sales_date</label>
+                                            <input type="text" class="form-control" id="sales_date"
+                                                placeholder="タイトルを入力してください" v-model="currentArticle.sales_date"
+                                                required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">
+                                            閉じる
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            保存
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="loading" v-if="loading===true">Loading&#8230;</div>
+                    </div>
+                    <!-- End of edit article modal -->
+                    <div class="modal fade" id="deleteArticleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                        本当に削除しますか？
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form v-on:submit.prevent=deleteArticle(currentArticle.book_id)>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">
+                                            閉じる
+                                        </button>
+                                        <button type="submit" class="btn btn-danger">
+                                            削除
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="loading" v-if="loading===true">Loading&#8230;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="loading" v-if="loading===true">Loading&#8230;</div>
+        </div>
+    </div>
+    <!-- bootrtap js files -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <%= javascript_pack_tag 'rakuten' %>
+    <%= stylesheet_pack_tag 'rakuten' %>
+</body>
+
+</html>

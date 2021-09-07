@@ -11,4 +11,8 @@ class TopController < ApplicationController
 
     def chat
     end
+    def rakuten
+    end
+    def book
+    end
 end
