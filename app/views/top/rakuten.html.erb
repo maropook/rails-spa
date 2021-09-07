@@ -56,6 +56,15 @@
                             <th scope="row">{{rakuten_books.authorKana}}</th>
                             <th scope="row">{{rakuten_books.isbn}}</th>
                             <th scope="row">{{rakuten_books.salesDate}}</th>
+                            <td>
+                                <button v-if="flug" class="btn btn-primary" v-on:click="addArticle()">
+                                    追加
+                                </button>
+                                <button v-if="flug" class="btn btn-info" v-on:click="searchArticle(rakuten_books.isbn)">
+                                    検索
+                                </button>
+
+                            </td>
 
 
 

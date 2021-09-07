@@ -6,8 +6,8 @@ const vm =  new Vue({
   el: "#starting",
 
   data: {
-    post_flug:false,
-      flug:true,
+
+      flug:false,
       articles: [],
       loading: true,
       currentArticle: {},
@@ -34,7 +34,7 @@ const vm =  new Vue({
       getArticles: function () {
           let api_url = "http://localhost:8000/book/book";
           if (this.search_term !== "" || this.search_term !== null) {
-              api_url = `http://localhost:8000/book/book?search=${this.search_term}`;
+              api_url = `http://localhost:8000/book/book/?search=${this.search_term}`;
           }
           this.loading = true;
           axios
@@ -61,6 +61,22 @@ const vm =  new Vue({
             .catch(err => {
                 this.loading = false;
                 console.log(err);
+            });
+    },
+    searchArticle: function (id) {
+
+          let  api_url = `http://localhost:8000/book/book/?search=${id}`;
+        this.loading = true;
+        axios
+            .get(api_url)
+            .then(response => {
+                this.articles = response.data.results;
+                this.loading = false;
+            })
+            .catch(err => {
+                this.loading = false;
+                console.log(err);
+                console.log('getarticleserr');
             });
     },
       addArticle: function () {
