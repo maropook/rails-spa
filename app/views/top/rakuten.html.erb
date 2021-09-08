@@ -6,10 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-    <!-- boostrap css -->
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css">
+-->
+    <style>
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            padding-top: 50px;
+        }
+
+
+        #todo-list {
+            margin-bottom: 30px;
+        }
+    </style>
+
 </head>
 
 <body>
+
     <div class="article">
         <div id="starting">
             <div class="container">
@@ -17,7 +34,7 @@
                 <br>
                 <div class="row">
                     <h2>
-                        ISBN結果
+                        ISBN入力
 
                     </h2>
                     &emsp;
@@ -40,17 +57,21 @@
                         <thead>
                             <tr>
                                 <%# "9784098252022"%>
+                                <th scope="col">画像</th>
                                 <th scope="col">タイトル</th>
                                 <th scope="col">タイトルカナ</th>
                                 <th scope="col">著者名</th>
                                 <th scope="col">著者名カナ</th>
                                 <th scope="col">isbnコード</th>
                                 <th scope="col">発売日</th>
+
                                 <th scope="col">アクション</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <th scope="row">{{rakuten_books.title}}</th>
+                            <th scope="row"><img :src="rakuten_books.smallImageUrl" alt=""></th>
+                            <th scope="row"><a target="_blank" :href="rakuten_books.itemUrl">{{rakuten_books.title}}</a>
+                            </th>
                             <th scope="row">{{rakuten_books.titleKana}}</th>
                             <th scope="row">{{rakuten_books.author}}</th>
                             <th scope="row">{{rakuten_books.authorKana}}</th>
@@ -76,9 +97,7 @@
             <div class="container">
                 <div class="row">
                     <h2>
-                        投稿一覧
-
-
+                        書籍一覧
                     </h2>
                     &emsp;
                     <div class="form-inline my-2 my-lg-0">
@@ -103,7 +122,7 @@
                         </thead>
                         <tbody>
                         <tbody>
-                            <tr v-for="(article,index) in articles" :key="index">
+                            <tr v-for="(article,index) in getItems" :key="index">
                                 <th scope="row">{{article.title}}</th>
                                 <th scope="row">{{article.title_kana}}</th>
 
@@ -125,6 +144,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    <paginate :page-count="getPageCount" :page-range="3" :margin-pages="2"
+                        :click-handler="clickCallback" :prev-text="'＜'" :next-text="'＞'" :container-class="'pagination'"
+                        :page-class="'page-item'">
+                    </paginate>
                     <!-- Add Article Modal -->
                     <div class="modal fade" id="addArticleModal" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLongTitle" aria-hidden="true">

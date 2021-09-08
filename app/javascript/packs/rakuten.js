@@ -1,12 +1,15 @@
 
 import Vue from 'vue/dist/vue.esm'
 import axios from 'axios';
+
+import Paginate from 'vuejs-paginate'
+
+Vue.component('paginate', Paginate)
+
 document.addEventListener('DOMContentLoaded', () => {
 const vm =  new Vue({
   el: "#starting",
-
   data: {
-
       flug:false,
       articles: [],
       loading: true,
@@ -21,10 +24,12 @@ const vm =  new Vue({
           isbn: null,
           sales_date: null,
       },
-
       search_term: "",
       rakuten_books: [],
       search_rakuten_books: "",
+
+      parPage: 20,
+       currentPage: 1,
   },
   mounted: function () {
       this.getArticles();
@@ -50,6 +55,7 @@ const vm =  new Vue({
               });
       },
       getArticle: function (id) {
+          //編集や削除をするため
 
         this.loading = true;
         axios
@@ -104,7 +110,8 @@ const vm =  new Vue({
           });
     },
     addArticle: function (id) {
-        console.log('え');
+        //addArticleDirectのための．モーダルが表示されない
+        console.log('addarticle');
       axios
           .post("http://localhost:8000/book/book/", this.newArticle)
           .then(response => {
@@ -162,8 +169,8 @@ const vm =  new Vue({
             });
     },
     getRakutenBooks: function () {
+        //ISBN検索
         let api_url = `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?applicationId=1089485087595106373&isbn=${this.search_rakuten_books}`;
-
         if (this.search_rakuten_books !== "" || this.search_rakuten_books !== null) {
           // 9784098252022
         this.api_url = `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?applicationId=1089485087595106373&isbn=${this.search_rakuten_books}`;
@@ -173,6 +180,7 @@ const vm =  new Vue({
         axios
             .get(api_url)
             .then(response => {
+                //検索結果をnewArticleに代入．
                 this.rakuten_books = response.data["Items"][0].Item
                 this.newArticle.title=this.rakuten_books.title;
                 this.newArticle.title_kana=this.rakuten_books.titleKana;
@@ -186,23 +194,28 @@ const vm =  new Vue({
             .catch(err => {
                 this.loading = false;
                 console.log(err);
-                console.log('ジジイ');
+                console.log('データを取得できませんでした');
             }); }
     },
     addArticleDirect: function () {
-
-        this.getRakutenBooks();
+        this.getRakutenBooks();//isbnコードからデータをgetし，その値をnewArticleに代入する．
 
         setTimeout(() => {
-            this.addArticle('コメント');
+            this.addArticle('コメント');//1秒後にnewArticleがpostされる
         }, 1000)
-
-
-
-
-
-
-    }}
-
+    },
+    clickCallback: function (pageNum) {
+        this.currentPage = Number(pageNum);
+     },},
+    computed: {
+        getItems: function() {
+          let current = this.currentPage * this.parPage;
+          let start = current - this.parPage;
+          return this.articles.slice(start, current);
+        },
+        getPageCount: function() {
+          return Math.ceil(this.articles.length / this.parPage);
+        }
+      }
 });
 })
