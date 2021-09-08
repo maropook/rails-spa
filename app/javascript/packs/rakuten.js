@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const vm =  new Vue({
   el: "#starting",
   data: {
+      direct_flug:false,
       flug:false,
       articles: [],
       isbns: [],
@@ -36,6 +37,9 @@ const vm =  new Vue({
   mounted: function () {
       this.getArticles();
       this.getAllIsbns();
+
+        this.$refs.direct_isbn.focus(); // OK
+
   },
   methods: {
 
@@ -44,7 +48,7 @@ const vm =  new Vue({
           if (this.search_term !== "" || this.search_term !== null) {
               api_url = `http://localhost:8000/book/book/?search=${this.search_term}`;
           }
-          this.loading = true;
+
           axios
               .get(api_url)
               .then(response => {
@@ -60,7 +64,7 @@ const vm =  new Vue({
       getArticle: function (id) {
           //編集や削除をするため
 
-        this.loading = true;
+
         axios
             .get(`http://localhost:8000/book/book/${id}/`)
             .then(response => {
@@ -75,7 +79,7 @@ const vm =  new Vue({
     searchArticle: function (id) {
 
         let  api_url = `http://localhost:8000/book/book/?search=${id}`;
-        this.loading = true;
+
         axios
             .get(api_url)
             .then(response => {
@@ -93,7 +97,7 @@ const vm =  new Vue({
       axios
           .post("http://localhost:8000/book/book/", this.newArticle)
           .then(response => {
-            this.loading = true;
+
             this.newArticle =
             {
               title:null,
@@ -103,9 +107,11 @@ const vm =  new Vue({
               isbn:null,
               sales_date:null,
           },
+
             this.getArticles();
+
             $("#addArticleModal").modal('toggle');
-    console.log('成功');
+            console.log('成功');
           })
           .catch(err => {
               this.loading = true;
@@ -114,12 +120,11 @@ const vm =  new Vue({
     },
     addArticle: function (id) {
         //addArticleDirectのための．モーダルが表示されない
-        console.log('addarticle');
       axios
           .post("http://localhost:8000/book/book/", this.newArticle)
           .then(response => {
-            this.loading = true;
-            alert(this.newArticle.title+"を追加しました");
+
+            if(this.direct_flug==true){alert(this.newArticle.title+"を追加しました");}
             this.newArticle =
             {
               title:null,
@@ -130,15 +135,13 @@ const vm =  new Vue({
               sales_date:null,
           },
             this.getArticles();
-
-    console.log('成功');
+            console.log('addarticle成功');
           })
           .catch(err => {
-              this.loading = true;
+              this.loading = false;
               console.log(err);
           });
     },
-
       deleteArticle: function (id) {
           this.loading = true;
           axios
@@ -176,7 +179,7 @@ const vm =  new Vue({
         //IsbnSearch かくにんせず追加，新規登録から呼び出される
         for(let i=0;i<this.checkIsbn.length;i++){
             if(this.checkIsbn[i]==this.search_rakuten_books){
-                alert('この書籍は登録済みです');
+                if(this.direct_flug==true){alert('この書籍は登録済みです');}
                 break;
             }
         }
@@ -207,8 +210,10 @@ const vm =  new Vue({
                 console.log(err);
                 console.log('データを取得できませんでした');
                 alert('データを取得できませんでした');
+                this.loading = false;
             }); }else{
                 alert('値を入力してください');
+                this.loading = false;
             }
     },
     addArticleDirect: function () {
@@ -216,6 +221,17 @@ const vm =  new Vue({
 
         setTimeout(() => {
             this.addArticle('コメント');//1秒後にnewArticleがpostされる
+        }, 1000)
+    },
+    addBookDirect: function (id) {
+        //ISBN入力(fast)
+        this.getRakutenBooks();//isbnコードからデータをgetし，その値をnewArticleに代入する．
+        setTimeout(() => {
+            this.addArticle('コメント');
+            this.search_rakuten_books = "";
+            this.rakuten_books=[];
+            this.flug=false;
+            //1秒後にnewArticleがpostされる
         }, 1000)
     },
     clickCallback: function (pageNum) {

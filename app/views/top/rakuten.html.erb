@@ -16,11 +16,6 @@
         body {
             padding-top: 50px;
         }
-
-
-        #todo-list {
-            margin-bottom: 30px;
-        }
     </style>
 
 </head>
@@ -30,28 +25,48 @@
     <div class="article">
         <div id="starting">
             <div class="container">
-                <br>
-                <br>
+
+                <div class="form-inline my-2 my-lg-0">
+                    <input type="checkbox" id="checkbox" v-model="direct_flug">
+                    <label for="checkbox">alertを出す．同じ本が登録されているか，正しく登録されたか確認する．</label>
+                    <p>isbn入力(falt)での追加ボタンやエンターキーはテキストボックスが空になってから</p>
+                    <br>
+                    <form v-on:submit.prevent="addBookDirect('direct')">
+                        <div class="row">
+                            <h2>
+                                ISBN入力(fast)
+                            </h2>
+                            &emsp;
+                            <div class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search"
+                                    v-model="search_rakuten_books" aria-label=" Search" ref="direct_isbn" />
+                                <button class="btn btn-outline-primary my-2 my-sm-0"
+                                    v-on:click.prevent="addBookDirect('direct')">
+                                    追加
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
                 <div class="row">
-
-
                     <h2>
                         ISBN入力
-
                     </h2>
                     &emsp;
                     <div class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="text" placeholder="Search"
                             v-model="search_rakuten_books" aria-label=" Search" />
                         <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getRakutenBooks()">
-                            IsbnSearch
+                            検索
                         </button>
                         <button class="btn btn-outline-primary my-2 my-sm-0" v-on:click.prevent="addArticleDirect()">
-                            確認せず追加
+                            追加
                         </button>
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#addArticleModal">
-                            新規追加
+                            手入力追加
                         </button>
 
                     </div>
