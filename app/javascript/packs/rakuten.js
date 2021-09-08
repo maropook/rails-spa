@@ -12,6 +12,8 @@ const vm =  new Vue({
   data: {
       flug:false,
       articles: [],
+      isbns: [],
+      checkIsbn:[],
       loading: true,
       currentArticle: {},
       message: null,
@@ -33,6 +35,7 @@ const vm =  new Vue({
   },
   mounted: function () {
       this.getArticles();
+      this.getAllIsbns();
   },
   methods: {
 
@@ -71,7 +74,7 @@ const vm =  new Vue({
     },
     searchArticle: function (id) {
 
-          let  api_url = `http://localhost:8000/book/book/?search=${id}`;
+        let  api_url = `http://localhost:8000/book/book/?search=${id}`;
         this.loading = true;
         axios
             .get(api_url)
@@ -116,6 +119,7 @@ const vm =  new Vue({
           .post("http://localhost:8000/book/book/", this.newArticle)
           .then(response => {
             this.loading = true;
+            alert(this.newArticle.title+"を追加しました");
             this.newArticle =
             {
               title:null,
@@ -169,9 +173,16 @@ const vm =  new Vue({
             });
     },
     getRakutenBooks: function () {
+        //IsbnSearch かくにんせず追加，新規登録から呼び出される
+        for(let i=0;i<this.checkIsbn.length;i++){
+            if(this.checkIsbn[i]==this.search_rakuten_books){
+                alert('この書籍は登録済みです');
+                break;
+            }
+        }
         //ISBN検索
         let api_url = `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?applicationId=1089485087595106373&isbn=${this.search_rakuten_books}`;
-        if (this.search_rakuten_books !== "" || this.search_rakuten_books !== null) {
+        if (this.search_rakuten_books != "" && this.search_rakuten_books !=null) {
           // 9784098252022
         this.api_url = `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?applicationId=1089485087595106373&isbn=${this.search_rakuten_books}`;
         console.log(this.api_url );
@@ -195,7 +206,10 @@ const vm =  new Vue({
                 this.loading = false;
                 console.log(err);
                 console.log('データを取得できませんでした');
-            }); }
+                alert('データを取得できませんでした');
+            }); }else{
+                alert('値を入力してください');
+            }
     },
     addArticleDirect: function () {
         this.getRakutenBooks();//isbnコードからデータをgetし，その値をnewArticleに代入する．
@@ -206,7 +220,32 @@ const vm =  new Vue({
     },
     clickCallback: function (pageNum) {
         this.currentPage = Number(pageNum);
-     },},
+     },
+
+     getAllIsbns: function () {
+        let api_url = "http://localhost:8000/book/book";
+        this.loading = true;
+        axios
+            .get(api_url)
+            .then(response => {
+                this.isbns = response.data.results
+                // this.isbns = response.data.results.length
+                for(let i=0;i<this.isbns.length;i++){
+                    this.checkIsbn[i]= this.isbns[i].isbn;
+                    // console.log(this.checkIsbn[i]);
+                }
+
+                this.loading = false;
+            })
+            .catch(err => {
+                this.loading = false;
+                console.log(err);
+                console.log('getarticleserr');
+            });
+
+
+    },
+    },
     computed: {
         getItems: function() {
           let current = this.currentPage * this.parPage;
