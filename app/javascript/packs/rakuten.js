@@ -177,6 +177,7 @@ const vm =  new Vue({
     },
     getRakutenBooks: function () {
         //IsbnSearch かくにんせず追加，新規登録から呼び出される
+        this.search_rakuten_books=this.search_rakuten_books.replace(/\s+/g, "");
         for(let i=0;i<this.checkIsbn.length;i++){
             if(this.checkIsbn[i]==this.search_rakuten_books){
                 if(this.direct_flug==true){alert('この書籍は登録済みです');}
